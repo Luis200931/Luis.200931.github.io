@@ -3,264 +3,989 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Servicio Técnico - Moca</title>
+<title>TechMoca – Servicio Técnico Profesional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0f172a;
-  color:white;
+:root {
+  --neon: #00ffcc;
+  --neon-dim: rgba(0,255,204,0.12);
+  --neon-glow: 0 0 24px rgba(0,255,204,0.35);
+  --bg: #080c14;
+  --bg2: #0d1420;
+  --bg3: #111827;
+  --card: #0f1929;
+  --border: rgba(255,255,255,0.07);
+  --border-neon: rgba(0,255,204,0.3);
+  --text: #e8edf5;
+  --muted: #6b7a93;
+  --font: 'Space Grotesk', sans-serif;
+  --mono: 'DM Mono', monospace;
 }
 
-/* HERO */
-.hero{
-  min-height:100vh;
-  background:url("https://raw.githubusercontent.com/Luis200931/Luis.200931.github.io/main/ChatGPT Image 26 abr 2026, 09_58_01.png") no-repeat center/cover;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:20px;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
 }
 
-.hero-content{
-  background:rgba(0,0,0,0.6);
-  padding:25px;
-  border-radius:15px;
-  max-width:500px;
-  width:100%;
+/* ─── NOISE OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
 }
 
-.hero h1{
-  font-size:32px;
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  backdrop-filter: blur(20px);
+  background: rgba(8,12,20,0.8);
+  border-bottom: 1px solid var(--border);
 }
 
-.hero p{
-  font-size:16px;
+.nav-logo {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text);
+  text-decoration: none;
 }
 
-.btn{
-  padding:12px 20px;
-  background:#00ffcc;
-  color:black;
-  text-decoration:none;
-  border-radius:10px;
-  font-weight:bold;
-  display:inline-block;
-  margin-top:10px;
+.nav-logo span { color: var(--neon); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
 }
 
-/* SERVICIOS */
-#servicios{
-  padding:40px 15px;
-  text-align:center;
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:15px;
-  margin-top:20px;
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta {
+  background: var(--neon);
+  color: #000;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.2s;
 }
 
-.card{
-  background:#1e293b;
-  padding:15px;
-  border-radius:10px;
-  font-size:14px;
+.nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 20px 80px;
+  overflow: hidden;
 }
 
-/* PRECIOS */
-#precios{
-  padding:40px 15px;
-  text-align:center;
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,255,204,0.08) 0%, transparent 70%),
+    url("https://raw.githubusercontent.com/Luis200931/Luis.200931.github.io/main/ChatGPT Image 26 abr 2026, 09_58_01.png") no-repeat center/cover;
+  z-index: 0;
 }
 
-.planes{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-  align-items:center;
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(8,12,20,0.65) 0%, rgba(8,12,20,0.85) 60%, var(--bg) 100%);
 }
 
-.plan{
-  background:#111;
-  padding:25px;
-  border-radius:15px;
-  width:90%;
-  max-width:300px;
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
 }
 
-.precio{
-  font-size:24px;
-  color:#00ffcc;
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--neon-dim);
+  border: 1px solid var(--border-neon);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-family: var(--mono);
+  color: var(--neon);
+  letter-spacing: 0.5px;
+  margin-bottom: 28px;
 }
 
-.plan ul{
-  list-style:none;
-  padding:0;
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--neon);
+  box-shadow: var(--neon-glow);
+  animation: pulse 2s infinite;
 }
 
-.plan ul li{
-  margin:8px 0;
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
 }
 
-.destacado{
-  border:2px solid #00ffcc;
+.hero h1 {
+  font-size: clamp(38px, 7vw, 68px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
 }
 
-/* TESTIMONIOS */
-#testimonios{
-  padding:40px 15px;
-  text-align:center;
+.hero h1 em {
+  font-style: normal;
+  color: var(--neon);
 }
 
-.testimonio{
-  background:#1e293b;
-  margin:10px auto;
-  padding:15px;
-  border-radius:10px;
-  max-width:90%;
-  font-size:14px;
+.hero p {
+  font-size: clamp(15px, 2vw, 18px);
+  color: var(--muted);
+  max-width: 480px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
 }
 
-/* FOOTER */
-footer{
-  padding:20px;
-  text-align:center;
-  background:#020617;
-  font-size:14px;
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-/* WHATSAPP FLOTANTE */
-.whatsapp{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  z-index:999;
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--neon);
+  color: #000;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--neon-glow);
 }
 
-.whatsapp img{
-  width:60px;
-  height:60px;
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(0,255,204,0.5);
 }
 
-/* RESPONSIVE DESKTOP */
-@media(min-width:768px){
-
-.hero h1{
-  font-size:45px;
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text);
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s, background 0.2s;
 }
 
-.hero p{
-  font-size:18px;
+.btn-secondary:hover {
+  border-color: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.04);
 }
 
-.planes{
-  flex-direction:row;
-  justify-content:center;
+/* ─── STATS BAR ─── */
+.stats-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
 }
 
-.grid{
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+.stat-item {
+  flex: 1;
+  max-width: 200px;
+  text-align: center;
+  padding: 28px 20px;
+  border-right: 1px solid var(--border);
 }
 
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--neon);
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: var(--mono);
+}
+
+/* ─── SECTIONS ─── */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 80px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--neon);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 500px;
+  line-height: 1.7;
+}
+
+/* ─── SERVICIOS ─── */
+.services-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.services-header .section-sub { margin: 0 auto; }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.service-card {
+  background: var(--card);
+  padding: 28px 24px;
+  transition: background 0.2s;
+  cursor: default;
+}
+
+.service-card:hover {
+  background: rgba(0,255,204,0.04);
+}
+
+.service-icon {
+  font-size: 26px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.service-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.service-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ─── PRECIOS ─── */
+.pricing-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 80px 20px;
+}
+
+.pricing-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.pricing-header .section-sub { margin: 0 auto; }
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.plan-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.plan-card:hover {
+  transform: translateY(-4px);
+}
+
+.plan-card.featured {
+  border-color: var(--border-neon);
+  background: linear-gradient(135deg, rgba(0,255,204,0.04) 0%, var(--card) 100%);
+}
+
+.plan-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--neon);
+  color: #000;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--mono);
+  padding: 4px 14px;
+  border-radius: 100px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.plan-name {
+  font-size: 13px;
+  font-family: var(--mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+.plan-price {
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.plan-price span {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+
+.plan-currency {
+  font-size: 22px;
+  vertical-align: top;
+  margin-top: 8px;
+  display: inline-block;
+  color: var(--neon);
+}
+
+.plan-desc {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.plan-features {
+  list-style: none;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.plan-features li {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+}
+
+.plan-features li::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border-radius: 50%;
+  background: var(--neon-dim);
+  border: 1px solid var(--border-neon);
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L3.5 6.5L9 1' stroke='%2300ffcc' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.plan-btn {
+  display: block;
+  text-align: center;
+  padding: 13px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.plan-btn.outline {
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.plan-btn.outline:hover {
+  border-color: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.04);
+}
+
+.plan-btn.filled {
+  background: var(--neon);
+  color: #000;
+  box-shadow: var(--neon-glow);
+}
+
+.plan-btn.filled:hover {
+  opacity: 0.88;
+  box-shadow: 0 0 36px rgba(0,255,204,0.5);
+}
+
+/* ─── PROCESO ─── */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0;
+  margin-top: 56px;
+  position: relative;
+}
+
+.process-grid::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border-neon), transparent);
+}
+
+.process-step {
+  text-align: center;
+  padding: 24px 20px;
+  position: relative;
+}
+
+.step-num {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--border-neon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--neon);
+  position: relative;
+  z-index: 1;
+}
+
+.step-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.step-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ─── CONTACTO / CTA ─── */
+.cta-section {
+  text-align: center;
+  padding: 100px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,204,0.06) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cta-inner h2 {
+  font-size: clamp(30px, 5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+
+.cta-inner p {
+  color: var(--muted);
+  font-size: 16px;
+  margin-bottom: 36px;
+}
+
+.cta-contact-info {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.contact-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 10px 20px;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.contact-pill:hover {
+  border-color: var(--border-neon);
+  color: var(--text);
+}
+
+.contact-pill strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: var(--bg);
+  position: relative;
+  z-index: 1;
+}
+
+.footer-logo {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.footer-logo span { color: var(--neon); }
+
+.footer-text {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ─── WHATSAPP ─── */
+.whatsapp-fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25D366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(37,211,102,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+
+.whatsapp-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 32px rgba(37,211,102,0.55);
+}
+
+.whatsapp-fab svg {
+  width: 30px;
+  height: 30px;
+  fill: white;
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 700px) {
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  .stats-bar { flex-wrap: wrap; }
+  .stat-item { max-width: none; flex: 1 1 calc(50% - 1px); border-right: 1px solid var(--border); }
+  .stat-item:nth-child(2n) { border-right: none; }
+  footer { flex-direction: column; text-align: center; padding: 24px 20px; }
+  .process-grid::before { display: none; }
 }
 </style>
 </head>
-
 <body>
 
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Tech<span>Moca</span></a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+  </ul>
+  <a href="#" onclick="wa('general');return false;" class="nav-cta">💬 WhatsApp</a>
+</nav>
+
 <!-- HERO -->
-<section class="hero">
+<div class="hero">
+  <div class="hero-bg"></div>
   <div class="hero-content">
-    <h1>💻 Servicio Técnico Profesional</h1>
-    <p>Reparación, limpieza y optimización de computadoras en Moca</p>
-    <a href="https://wa.me/18299721500" class="btn">Contactar</a>
+    <div class="hero-badge">Disponible en Moca · RD</div>
+    <h1>Tu computadora,<br><em>en manos expertas</em></h1>
+    <p>Reparación, optimización y soporte técnico profesional. Resultados rápidos, precios justos.</p>
+    <div class="hero-actions">
+      <a href="#" onclick="wa('general');return false;" class="btn-primary">
+        📲 Contactar ahora
+      </a>
+      <a href="#servicios" class="btn-secondary">Ver servicios →</a>
+    </div>
   </div>
-</section>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">500+</div>
+    <div class="stat-label">Equipos reparados</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">24h</div>
+    <div class="stat-label">Entrega rápida</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Satisfacción</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">5★</div>
+    <div class="stat-label">Calificación</div>
+  </div>
+</div>
 
 <!-- SERVICIOS -->
 <section id="servicios">
-<h2>Servicios</h2>
+  <div class="services-header">
+    <div class="section-label">// lo que hacemos</div>
+    <h2 class="section-title">Servicios completos<br>de soporte técnico</h2>
+    <p class="section-sub">Todo lo que tu equipo necesita, desde diagnóstico hasta instalación total.</p>
+  </div>
 
-<div class="grid">
-<div class="card">💻 Reparación de computadoras</div>
-<div class="card">⚙️ Instalación de sistemas</div>
-<div class="card">🧼 Limpieza + pasta térmica</div>
-<div class="card">🛡 Eliminación de virus</div>
-<div class="card">🚀 Optimización</div>
-<div class="card">💾 Formateo + respaldo</div>
-<div class="card">🌐 Redes y WiFi</div>
-<div class="card">🖥 Programas</div>
-<div class="card">🔧 Diagnóstico</div>
-<div class="card">🔌 Hardware (SSD/RAM)</div>
-<div class="card">📡 Soporte remoto</div>
-<div class="card">🏢 A domicilio</div>
-</div>
-
-<p style="margin-top:15px;font-weight:bold;">
-💰 Precios accesibles | 📍 Moca | ⚡ Rápido
-</p>
-
+  <div class="services-grid">
+    <div class="service-card" onclick="wa('reparacion')" style="cursor:pointer;">
+      <span class="service-icon">💻</span>
+      <div class="service-name">Reparación</div>
+      <div class="service-desc">Diagnóstico y reparación de laptops y desktops</div>
+    </div>
+    <div class="service-card" onclick="wa('sistemas')" style="cursor:pointer;">
+      <span class="service-icon">⚙️</span>
+      <div class="service-name">Sistemas</div>
+      <div class="service-desc">Instalación y configuración de Windows y Linux</div>
+    </div>
+    <div class="service-card" onclick="wa('limpieza')" style="cursor:pointer;">
+      <span class="service-icon">🧼</span>
+      <div class="service-name">Limpieza profunda</div>
+      <div class="service-desc">Limpieza interna + aplicación de pasta térmica</div>
+    </div>
+    <div class="service-card" onclick="wa('virus')" style="cursor:pointer;">
+      <span class="service-icon">🛡️</span>
+      <div class="service-name">Antivirus</div>
+      <div class="service-desc">Eliminación de virus, malware y spyware</div>
+    </div>
+    <div class="service-card" onclick="wa('optimizacion')" style="cursor:pointer;">
+      <span class="service-icon">🚀</span>
+      <div class="service-name">Optimización</div>
+      <div class="service-desc">Acelera tu equipo al máximo rendimiento</div>
+    </div>
+    <div class="service-card" onclick="wa('formateo')" style="cursor:pointer;">
+      <span class="service-icon">💾</span>
+      <div class="service-name">Formateo & Respaldo</div>
+      <div class="service-desc">Formateo completo con respaldo de tus datos</div>
+    </div>
+    <div class="service-card" onclick="wa('redes')" style="cursor:pointer;">
+      <span class="service-icon">🌐</span>
+      <div class="service-name">Redes & WiFi</div>
+      <div class="service-desc">Configuración y solución de problemas de red</div>
+    </div>
+    <div class="service-card" onclick="wa('hardware')" style="cursor:pointer;">
+      <span class="service-icon">🔌</span>
+      <div class="service-name">Hardware</div>
+      <div class="service-desc">Instalación de SSD, RAM y más componentes</div>
+    </div>
+    <div class="service-card" onclick="wa('remoto')" style="cursor:pointer;">
+      <span class="service-icon">📡</span>
+      <div class="service-name">Soporte remoto</div>
+      <div class="service-desc">Asistencia sin salir de casa via Internet</div>
+    </div>
+    <div class="service-card" onclick="wa('domicilio')" style="cursor:pointer;">
+      <span class="service-icon">🏠</span>
+      <div class="service-name">A domicilio</div>
+      <div class="service-desc">Servicio directo en tu hogar u oficina en Moca</div>
+    </div>
+    <div class="service-card" onclick="wa('programas')" style="cursor:pointer;">
+      <span class="service-icon">🖥️</span>
+      <div class="service-name">Programas</div>
+      <div class="service-desc">Instalación de software y licencias esenciales</div>
+    </div>
+    <div class="service-card" onclick="wa('diagnostico')" style="cursor:pointer;">
+      <span class="service-icon">🔧</span>
+      <div class="service-name">Diagnóstico</div>
+      <div class="service-desc">Evaluación completa del estado del equipo</div>
+    </div>
+  </div>
 </section>
 
 <!-- PRECIOS -->
-<section id="precios">
-<h2>Planes</h2>
+<div class="pricing-section" id="precios">
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <div class="section-label">// planes y precios</div>
+      <h2 class="section-title">Transparente y accesible</h2>
+      <p class="section-sub">Sin sorpresas. Elige el plan que se ajusta a lo que necesitas.</p>
+    </div>
 
-<div class="planes">
+    <div class="plans-grid">
+      <!-- Básico -->
+      <div class="plan-card">
+        <div class="plan-name">Básico</div>
+        <div class="plan-price">
+          <span class="plan-currency">RD$</span>500
+        </div>
+        <div class="plan-desc">Mantenimiento esencial para recuperar el rendimiento</div>
+        <ul class="plan-features">
+          <li>Limpieza interna del sistema</li>
+          <li>Optimización general</li>
+          <li>Eliminación de virus</li>
+        </ul>
+        <a href="#" onclick="wa('basico');return false;" class="plan-btn outline">Contratar plan →</a>
+      </div>
 
-<div class="plan">
-<h3>🟢 Básico</h3>
-<p class="precio">RD$500</p>
-<ul>
-<li>✔ Limpieza</li>
-<li>✔ Optimización</li>
-<li>✔ Virus</li>
-</ul>
+      <!-- Pro (destacado) -->
+      <div class="plan-card featured">
+        <div class="plan-badge">MÁS POPULAR</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">
+          <span class="plan-currency">RD$</span>800
+        </div>
+        <div class="plan-desc">El equilibrio perfecto entre precio y resultado</div>
+        <ul class="plan-features">
+          <li>Todo lo del plan Básico</li>
+          <li>Pasta térmica premium</li>
+          <li>Optimización avanzada</li>
+          <li>Instalación de programas</li>
+        </ul>
+        <a href="#" onclick="wa('pro');return false;" class="plan-btn filled">Contratar plan →</a>
+      </div>
+
+      <!-- Premium -->
+      <div class="plan-card">
+        <div class="plan-name">Premium</div>
+        <div class="plan-price">
+          <span class="plan-currency">RD$</span>1,500
+        </div>
+        <div class="plan-desc">Solución completa para un equipo como nuevo</div>
+        <ul class="plan-features">
+          <li>Todo lo del plan Pro</li>
+          <li>Formateo completo</li>
+          <li>Respaldo de datos</li>
+          <li>Instalación total del sistema</li>
+        </ul>
+        <a href="#" onclick="wa('premium');return false;" class="plan-btn outline">Contratar plan →</a>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="plan destacado">
-<h3>🔥 Pro</h3>
-<p class="precio">RD$800</p>
-<ul>
-<li>✔ Todo básico</li>
-<li>✔ Pasta térmica</li>
-<li>✔ Rendimiento</li>
-<li>✔ Programas</li>
-</ul>
-</div>
-
-<div class="plan">
-<h3>🔵 Premium</h3>
-<p class="precio">RD$1500</p>
-<ul>
-<li>✔ Todo Pro</li>
-<li>✔ Formateo</li>
-<li>✔ Respaldo</li>
-<li>✔ Instalación total</li>
-</ul>
-</div>
-
-</div>
+<!-- PROCESO -->
+<section id="proceso">
+  <div style="text-align:center; margin-bottom:0;">
+    <div class="section-label">// cómo funciona</div>
+    <h2 class="section-title">Simple y sin complicaciones</h2>
+    <p class="section-sub" style="margin:0 auto;">Del contacto inicial a tu equipo funcionando perfecto, en 4 pasos.</p>
+  </div>
+  <div class="process-grid">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Escríbenos</div>
+      <div class="step-desc">Contáctanos por WhatsApp y describe el problema</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-title">Diagnóstico</div>
+      <div class="step-desc">Evaluamos tu equipo y te damos un presupuesto</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Reparación</div>
+      <div class="step-desc">Resolvemos el problema con rapidez y precisión</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <div class="step-title">Entrega</div>
+      <div class="step-desc">Recibes tu equipo optimizado y funcionando</div>
+    </div>
+  </div>
 </section>
 
-
-
-</section>
+<!-- CTA FINAL -->
+<div style="background: var(--bg2); border-top: 1px solid var(--border); position:relative; z-index:1;">
+  <div class="cta-section">
+    <div class="cta-inner">
+      <div class="section-label" style="margin-bottom:16px;">// contáctanos</div>
+      <h2>¿Tu computadora<br>necesita ayuda?</h2>
+      <p>Estamos en Moca, listos para resolver tu problema hoy mismo.</p>
+      <a href="#" onclick="wa('general');return false;" class="btn-primary" style="font-size:16px; padding:16px 36px;">
+        📲 Escribir por WhatsApp
+      </a>
+      <div class="cta-contact-info">
+        <span class="contact-pill">📍 <strong>Moca, Espaillat</strong></span>
+        <a href="tel:+18299721500" class="contact-pill">📞 <strong>829-972-1500</strong></a>
+        <span class="contact-pill">⏰ <strong>Lun–Sáb 8am–7pm</strong></span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
-<p>📍 Moca, República Dominicana</p>
-<p>📲 829-972-1500</p>
+  <div class="footer-logo">Tech<span>Moca</span></div>
+  <div class="footer-text">📍 Moca, República Dominicana · 829-972-1500</div>
+  <div class="footer-text" style="font-size:12px; opacity:0.5;">© 2026 TechMoca</div>
 </footer>
 
-<!-- BOTON WHATSAPP -->
-<a href="https://wa.me/18299721500" class="whatsapp" target="_blank">
-  <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+<!-- WHATSAPP FAB -->
+<a href="#" onclick="wa('general');return false;" class="whatsapp-fab" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
 </a>
+
+<script>
+const PHONE = '18299721500';
+
+const MESSAGES = {
+  general:      '¡Hola! Me comunico desde la página web de TechMoca. Quisiera obtener información sobre sus servicios de soporte técnico en Moca. ¿Podrían ayudarme?',
+  reparacion:   '¡Hola! Vi su servicio de *Reparación de Computadoras* en la página web. Necesito que revisen mi equipo, parece tener un problema de hardware/software. ¿Cuándo pueden atenderme?',
+  sistemas:     '¡Hola! Me interesa el servicio de *Instalación de Sistemas Operativos* que ofrecen. Necesito instalar/reinstalar Windows en mi computadora. ¿Cuál es el costo y disponibilidad?',
+  limpieza:     '¡Hola! Vi que ofrecen *Limpieza Profunda + Pasta Térmica*. Mi equipo se calienta mucho y va lento. ¿Cuándo pueden realizarle el mantenimiento?',
+  virus:        '¡Hola! Necesito el servicio de *Eliminación de Virus y Malware*. Mi computadora tiene un comportamiento extraño y creo que está infectada. ¿Pueden ayudarme?',
+  optimizacion: '¡Hola! Me interesa el servicio de *Optimización de Computadoras*. Mi equipo va muy lento y quiero mejorarlo sin cambiar partes. ¿Qué opciones tienen?',
+  formateo:     '¡Hola! Quiero realizar un *Formateo con Respaldo de Datos*. Necesito formatear mi computadora pero sin perder mis archivos. ¿Cómo funciona el proceso?',
+  redes:        '¡Hola! Necesito ayuda con el servicio de *Redes y WiFi*. Tengo problemas con mi conexión a internet / configuración de red en casa. ¿Pueden venir a revisarlo?',
+  hardware:     '¡Hola! Me interesa el servicio de *Instalación de Hardware*. Quiero mejorar mi equipo con un SSD o más RAM. ¿Qué opciones tienen disponibles y cuál es el costo?',
+  remoto:       '¡Hola! Vi que ofrecen *Soporte Técnico Remoto*. Tengo un problema con mi computadora y me gustaría resolverlo sin salir de casa. ¿Cómo funciona el servicio?',
+  domicilio:    '¡Hola! Me interesa el servicio *A Domicilio*. Necesito que vengan a revisar mi equipo en Moca. ¿Cuál es su disponibilidad y tienen algún costo adicional por el traslado?',
+  programas:    '¡Hola! Necesito el servicio de *Instalación de Programas*. Quiero instalar algunos programas en mi computadora. ¿Qué software manejan y cuál es el costo?',
+  diagnostico:  '¡Hola! Quisiera solicitar un *Diagnóstico Completo* para mi equipo. Tiene varios problemas y no sé exactamente qué falla. ¿Cuánto cuesta el diagnóstico?',
+  basico:       '¡Hola! Quiero contratar el *Plan Básico (RD$500)*.\n\n✅ Limpieza del sistema\n✅ Optimización general\n✅ Eliminación de virus\n\n¿Cuándo tienen disponibilidad para atenderme?',
+  pro:          '¡Hola! Quiero contratar el *Plan Pro (RD$800)*.\n\n✅ Limpieza del sistema\n✅ Pasta térmica premium\n✅ Optimización avanzada\n✅ Instalación de programas\n\n¿Cuándo tienen disponibilidad para atenderme?',
+  premium:      '¡Hola! Quiero contratar el *Plan Premium (RD$1,500)*.\n\n✅ Todo el plan Pro\n✅ Formateo completo\n✅ Respaldo de datos\n✅ Instalación total del sistema\n\n¿Cuándo tienen disponibilidad para atenderme?',
+};
+
+function wa(key) {
+  const msg = MESSAGES[key] || MESSAGES.general;
+  const encoded = encodeURIComponent(msg);
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const url = isMobile
+    ? `whatsapp://send?phone=${PHONE}&text=${encoded}`
+    : `https://web.whatsapp.com/send?phone=${PHONE}&text=${encoded}`;
+  window.open(url, '_blank');
+}
+</script>
 
 </body>
 </html>
